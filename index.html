@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Maya Greenberg Portfolio - Wireframe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: #000;
+        color: #fff;
+        overflow-x: hidden;
+      }
+
+      body.menu-active {
+        overflow: hidden;
+      }
+
+      /* Intro Screen */
+      .intro-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: #000;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        transition: opacity 1s ease;
+      }
+
+      .intro-screen.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .intro-illustration {
+        width: 120px;
+        height: 100px;
+        border: 2px dashed #fff;
+        margin-bottom: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 12px;
+      }
+      .caveat {
+        font-family: "Caveat", cursive;
+        font-optical-sizing: auto;
+        font-weight: 400;
+        font-style: normal;
+      }
+
+      .intro-name {
+        color: #fff;
+        font-size: 48px;
+        font-family: "caveat", cursive;
+        letter-spacing: 2px;
+      }
+
+      /* Site Name - Fixed Top Left */
+      .site-name-header {
+        position: fixed;
+        top: 40px;
+        left: 40px;
+        font-family: "caveat", cursive;
+        font-size: 24px;
+        letter-spacing: 2px;
+        z-index: 100;
+        opacity: 0;
+        transition: opacity 0.6s ease;
+      }
+
+      .site-name-header.visible {
+        opacity: 1;
+      }
+
+      /* Left Sidebar Menu */
+      .menu-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 280px;
+        height: 100vh;
+        background: #000;
+        z-index: 99;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 40px;
+        opacity: 0;
+        transform: translateX(-20px);
+        transition: all 0.6s ease;
+      }
+
+      .menu-sidebar.visible {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      /* Main Menu - Centered State */
+      .menu-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.6s ease;
+        z-index: 50;
+      }
+
+      .menu-container.hidden {
+        opacity: 0;
+        pointer-events: none;
+        visibility: hidden;
+      }
+
+      .main-menu {
+        text-align: center;
+      }
+
+      .menu-item {
+        font-size: 28px;
+        padding: 15px 0;
+        margin: 8px 0;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        transition: opacity 0.3s ease;
+        display: block;
+        color: #fff;
+        letter-spacing: 1px;
+        text-align: left;
+      }
+
+      .menu-item:hover {
+        opacity: 0.6;
+      }
+
+      .menu-sidebar .menu-item {
+        font-size: 16px;
+        padding: 6px 0;
+        margin: 4px 0;
+      }
+
+      .menu-container .menu-item {
+        text-align: center;
+      }
+
+      /* Gallery Grid */
+      .gallery-container {
+        margin-left: 280px;
+        max-width: calc(100% - 320px);
+        padding: 40px 40px 60px 40px;
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s ease;
+      }
+
+      .gallery-container.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .gallery-title {
+        font-size: 32px;
+        margin-bottom: 40px;
+        text-align: left;
+        font-weight: 300;
+        letter-spacing: 2px;
+      }
+
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 60px 40px;
+      }
+
+      .gallery-item {
+        cursor: pointer;
+        transition: transform 0.3s ease;
+      }
+
+      .gallery-item:hover {
+        transform: scale(1.02);
+      }
+
+      .gallery-image {
+        width: 100%;
+        aspect-ratio: 3/4;
+        background: #1a1a1a;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        color: #666;
+        margin-bottom: 10px;
+      }
+
+      .gallery-meta {
+        display: flex;
+        justify-content: space-between;
+        font-size: 13px;
+        padding: 0 5px;
+      }
+
+      .gallery-year {
+        color: #999;
+      }
+
+      .gallery-title-text {
+        font-style: normal;
+      }
+
+      /* Detail View */
+      .detail-view {
+        position: fixed;
+        top: 0;
+        left: 280px;
+        width: calc(100% - 280px);
+        height: 100vh;
+        background: #000;
+        z-index: 900;
+        display: none;
+        padding: 0;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .detail-view.active {
+        display: block;
+      }
+
+      .detail-content {
+        max-width: 1200px;
+        padding: 40px 40px 60px 40px;
+      }
+
+      .detail-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 40px;
+      }
+
+      .detail-title {
+        font-size: 32px;
+        font-weight: 300;
+        letter-spacing: 2px;
+      }
+
+      .detail-nav-buttons {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+      }
+
+      .nav-arrow {
+        background: transparent;
+        border: none;
+        color: #fff;
+        font-size: 14px;
+        cursor: pointer;
+        padding: 0;
+        letter-spacing: 1px;
+        transition: opacity 0.3s ease;
+      }
+
+      .nav-arrow:hover:not(:disabled) {
+        opacity: 0.6;
+      }
+
+      .nav-arrow:disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+      }
+
+      .close-button {
+        background: transparent;
+        color: #fff;
+        border: none;
+        padding: 0;
+        font-size: 14px;
+        cursor: pointer;
+        transition: opacity 0.3s ease;
+        letter-spacing: 1px;
+      }
+
+      .close-button:hover {
+        opacity: 0.6;
+      }
+
+      .spreads-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 60px 40px;
+      }
+
+      .spread-item {
+        width: 100%;
+      }
+
+      .spread-image {
+        width: 100%;
+        aspect-ratio: 3/4;
+        background: #1a1a1a;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        color: #666;
+        margin-bottom: 10px;
+      }
+
+      .spread-label {
+        font-size: 13px;
+        color: #999;
+        text-align: center;
+      }
+
+      /* Annotations */
+      .annotation {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #1a1a1a;
+        border: 1px solid #333;
+        padding: 15px 20px;
+        font-size: 11px;
+        max-width: 300px;
+        z-index: 2000;
+        color: #999;
+      }
+
+      .annotation strong {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 12px;
+        color: #fff;
+      }
+
+      @media (max-width: 768px) {
+        .menu-sidebar {
+          position: fixed;
+          width: 100%;
+          height: auto;
+          top: auto;
+          bottom: 0;
+          left: 0;
+          padding: 20px;
+          background: rgba(0, 0, 0, 0.85);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          border-top: 1px solid #333;
+        }
+
+        .menu-sidebar .main-menu {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 10px;
+        }
+
+        .menu-sidebar .menu-item {
+          font-size: 13px;
+          padding: 8px 12px;
+          margin: 0;
+          flex: 0 1 auto;
+          white-space: nowrap;
+        }
+
+        .site-name-header {
+          position: fixed;
+          top: 20px;
+          left: 20px;
+          background: rgba(0, 0, 0, 0.85);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          padding: 10px 15px;
+          border: 1px solid #333;
+        }
+
+        .gallery-container {
+          margin-left: 0;
+          max-width: 100%;
+          padding: 80px 20px 120px 20px;
+        }
+
+        .gallery-grid {
+          grid-template-columns: 1fr;
+          gap: 40px;
+        }
+
+        .detail-view {
+          left: 0;
+          width: 100%;
+        }
+
+        .detail-content {
+          padding: 80px 20px 120px 20px;
+        }
+
+        .menu-item {
+          font-size: 24px;
+        }
+
+        .menu-container .menu-item {
+          font-size: 20px;
+          padding: 12px 0;
+          margin: 6px 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Intro Screen -->
+    <div class="intro-screen" id="introScreen">
+      <div class="intro-illustration">[Illustration]</div>
+      <div class="intro-name">Maya Greenberg</div>
+    </div>
+
+    <!-- Site Name - Top Left -->
+    <div class="site-name-header" id="siteNameHeader">Maya Greenberg</div>
+
+    <!-- Left Sidebar Menu -->
+    <aside class="menu-sidebar" id="menuSidebar">
+      <nav class="main-menu">
+        <div class="menu-item" onclick="showGallery('works')">
+          Works on Paper
+        </div>
+        <div class="menu-item" onclick="showGallery('sketchbooks')">
+          Sketchbooks
+        </div>
+        <div class="menu-item" onclick="showGallery('mixed')">Mixed Media</div>
+        <div class="menu-item" onclick="showGallery('writings')">Writings</div>
+        <div class="menu-item" onclick="showGallery('exhibitions')">
+          Exhibitions / About
+        </div>
+      </nav>
+    </aside>
+
+    <!-- Centered Menu (Initial State) -->
+    <div class="menu-container" id="menuContainer">
+      <nav class="main-menu">
+        <div class="menu-item" onclick="showGallery('works')">
+          Works on Paper
+        </div>
+        <div class="menu-item" onclick="showGallery('sketchbooks')">
+          Sketchbooks
+        </div>
+        <div class="menu-item" onclick="showGallery('mixed')">Mixed Media</div>
+        <div class="menu-item" onclick="showGallery('writings')">Writings</div>
+        <div class="menu-item" onclick="showGallery('exhibitions')">
+          Exhibitions / About
+        </div>
+      </nav>
+    </div>
+
+    <!-- Gallery Container -->
+    <div class="gallery-container" id="galleryContainer">
+      <h2 class="gallery-title" id="galleryTitle">Sketchbooks</h2>
+      <div class="gallery-grid" id="galleryGrid">
+        <!-- Gallery items will be inserted here -->
+      </div>
+    </div>
+
+    <!-- Detail View -->
+    <div class="detail-view" id="detailView">
+      <div class="detail-content">
+        <div class="detail-header">
+          <h2 class="detail-title" id="detailTitle">Sketchbook 1</h2>
+          <div class="detail-nav-buttons">
+            <button
+              class="nav-arrow"
+              id="prevItemBtn"
+              onclick="navigateItem('prev')"
+            >
+              ← PREV
+            </button>
+            <button class="close-button" onclick="closeDetail()">
+              ✕ CLOSE
+            </button>
+            <button
+              class="nav-arrow"
+              id="nextItemBtn"
+              onclick="navigateItem('next')"
+            >
+              NEXT →
+            </button>
+          </div>
+        </div>
+        <div class="spreads-grid" id="spreadsGrid">
+          <!-- Spreads will be inserted here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Annotation -->
+    <div class="annotation" id="annotation">
+      <strong>WIREFRAME MODE</strong>
+      Wait 3 seconds for intro fade, then click menu items to see gallery
+      layout. Click any gallery item to see detail view.
+    </div>
+
+    <script>
+      let currentSection = "";
+      let currentItemIndex = -1;
+      let currentItems = [];
+
+      // Sample gallery data
+      const galleryData = {
+        sketchbooks: [
+          { title: "Sketchbook 1", year: "2024" },
+          { title: "Sketchbook 2", year: "2024" },
+          { title: "Sketchbook 3", year: "2023" },
+          { title: "Sketchbook 4", year: "2023" },
+          { title: "Sketchbook 5", year: "2023" },
+          { title: "Sketchbook 6", year: "2022" },
+        ],
+        works: [
+          { title: "Drawing 1", year: "2024" },
+          { title: "Drawing 2", year: "2024" },
+          { title: "Drawing 3", year: "2023" },
+          { title: "Drawing 4", year: "2023" },
+        ],
+        mixed: [
+          { title: "Work 1", year: "2024" },
+          { title: "Work 2", year: "2023" },
+          { title: "Work 3", year: "2023" },
+          { title: "Work 4", year: "2022" },
+        ],
+        writings: [
+          { title: "Text 1", year: "2024" },
+          { title: "Text 2", year: "2024" },
+          { title: "Text 3", year: "2023" },
+        ],
+        exhibitions: [
+          { title: "Exhibition 1", year: "2024" },
+          { title: "Exhibition 2", year: "2023" },
+          { title: "About", year: "2024" },
+        ],
+      };
+
+      // Auto-fade intro after 3 seconds
+      setTimeout(() => {
+        document.getElementById("introScreen").classList.add("hidden");
+        document.body.classList.add("menu-active");
+        setTimeout(() => {
+          document.getElementById("annotation").innerHTML =
+            "<strong>WIREFRAME MODE</strong>Click any menu item to explore";
+        }, 1000);
+      }, 3000);
+
+      function showGallery(section) {
+        currentSection = section;
+        document.body.classList.remove("menu-active");
+        const menuContainer = document.getElementById("menuContainer");
+        const menuSidebar = document.getElementById("menuSidebar");
+        const siteNameHeader = document.getElementById("siteNameHeader");
+        const galleryContainer = document.getElementById("galleryContainer");
+        const galleryTitle = document.getElementById("galleryTitle");
+        const galleryGrid = document.getElementById("galleryGrid");
+
+        // Update title
+        const titles = {
+          works: "Works on Paper",
+          sketchbooks: "Sketchbooks",
+          mixed: "Mixed Media",
+          writings: "Writings",
+          exhibitions: "Exhibitions / About",
+        };
+        galleryTitle.textContent = titles[section];
+
+        // Hide centered menu, show sidebar
+        menuContainer.classList.add("hidden");
+        menuSidebar.classList.add("visible");
+        siteNameHeader.classList.add("visible");
+
+        // Populate gallery
+        galleryGrid.innerHTML = "";
+        const items = galleryData[section] || [];
+        currentItems = items;
+        items.forEach((item, index) => {
+          const galleryItem = document.createElement("div");
+          galleryItem.className = "gallery-item";
+          galleryItem.onclick = () => openDetail(index);
+          galleryItem.innerHTML = `
+                    <div class="gallery-image">[${item.title}]</div>
+                    <div class="gallery-meta">
+                        <span class="gallery-year">${item.year}</span>
+                        <span class="gallery-title-text">${item.title}</span>
+                    </div>
+                `;
+          galleryGrid.appendChild(galleryItem);
+        });
+
+        // Show gallery
+        setTimeout(() => {
+          galleryContainer.classList.add("visible");
+          document.getElementById("annotation").innerHTML =
+            "<strong>WIREFRAME MODE</strong>Left sidebar menu fixed. On mobile: bottom menu with blur.";
+        }, 600);
+      }
+
+      function openDetail(itemIndex) {
+        currentItemIndex = itemIndex;
+        const item = currentItems[itemIndex];
+        const detailView = document.getElementById("detailView");
+        const detailTitle = document.getElementById("detailTitle");
+        const spreadsGrid = document.getElementById("spreadsGrid");
+
+        detailTitle.textContent = item.title;
+        spreadsGrid.innerHTML = "";
+
+        // Reset scroll to top
+        detailView.scrollTop = 0;
+
+        // Update nav buttons
+        updateNavButtons();
+
+        if (currentSection === "sketchbooks") {
+          // Show 7 spreads in grid
+          for (let i = 1; i <= 7; i++) {
+            const spreadItem = document.createElement("div");
+            spreadItem.className = "spread-item";
+            spreadItem.innerHTML = `
+                        <div class="spread-image">[Spread ${i}]</div>
+                        <div class="spread-label">Spread ${i}</div>
+                    `;
+            spreadsGrid.appendChild(spreadItem);
+          }
+          spreadsGrid.style.gridTemplateColumns = "repeat(2, 1fr)";
+          spreadsGrid.style.maxWidth = "none";
+          document.getElementById("annotation").innerHTML =
+            "<strong>WIREFRAME MODE</strong>Use PREV/NEXT to flow through works. Always moving forward.";
+        } else {
+          // Show single full view
+          const singleItem = document.createElement("div");
+          singleItem.className = "spread-item";
+          singleItem.innerHTML = `
+                    <div class="spread-image">[${item.title}]</div>
+                `;
+          spreadsGrid.appendChild(singleItem);
+          spreadsGrid.style.gridTemplateColumns = "1fr";
+          spreadsGrid.style.maxWidth = "600px";
+          spreadsGrid.style.margin = "0 auto";
+          document.getElementById("annotation").innerHTML =
+            "<strong>WIREFRAME MODE</strong>Use PREV/NEXT to flow through works. Always moving forward.";
+        }
+
+        detailView.classList.add("active");
+      }
+
+      function updateNavButtons() {
+        const prevBtn = document.getElementById("prevItemBtn");
+        const nextBtn = document.getElementById("nextItemBtn");
+
+        prevBtn.disabled = currentItemIndex === 0;
+        nextBtn.disabled = currentItemIndex === currentItems.length - 1;
+      }
+
+      function navigateItem(direction) {
+        if (direction === "prev" && currentItemIndex > 0) {
+          openDetail(currentItemIndex - 1);
+        } else if (
+          direction === "next" &&
+          currentItemIndex < currentItems.length - 1
+        ) {
+          openDetail(currentItemIndex + 1);
+        }
+      }
+
+      function closeDetail() {
+        const detailView = document.getElementById("detailView");
+        const spreadsGrid = document.getElementById("spreadsGrid");
+
+        detailView.classList.remove("active");
+        spreadsGrid.style.gridTemplateColumns = "repeat(2, 1fr)";
+        spreadsGrid.style.maxWidth = "none";
+        spreadsGrid.style.margin = "0";
+
+        document.getElementById("annotation").innerHTML =
+          "<strong>WIREFRAME MODE</strong>Left sidebar menu stays fixed. Gallery aligned right.";
+      }
+    </script>
+  </body>
+</html>
